@@ -44,6 +44,11 @@
           "speechRecognitionPermission": "Allow Voice to Text Tutorial to securely recognize user speech"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8ac1ba93-15f4-4976-a49c-d0e43c9f929f"
+      }
+    }
   }
 }
