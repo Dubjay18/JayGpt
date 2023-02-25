@@ -14,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -25,26 +23,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "blockedPermissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.anonymous.jaygpt"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      [
-        "@react-native-voice/voice",
-        {
-          "microphonePermission": "Allow Voice to Text Tutorial to access the microphone",
-          "speechRecognitionPermission": "Allow Voice to Text Tutorial to securely recognize user speech"
-        }
-      ]
-    ],
+
     "extra": {
       "eas": {
         "projectId": "8ac1ba93-15f4-4976-a49c-d0e43c9f929f"
