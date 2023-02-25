@@ -7,6 +7,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "react-query";
+import dotenv from "dotenv";
+dotenv.config();
 export default function App() {
   const queryClient = new QueryClient();
   return (

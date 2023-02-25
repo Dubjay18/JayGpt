@@ -43,7 +43,7 @@ function MesssageScreen() {
         },
         {
           headers: {
-            Authorization: `Bearer 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`,
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
             "Content-Type": "application/json",
           },
         }
