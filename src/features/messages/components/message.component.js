@@ -2,10 +2,10 @@ import React from "react";
 import { Text } from "react-native";
 import MessageStyle from "./message.styled";
 
-const Message = ({ user }) => {
+const Message = ({ sender, text }) => {
   return (
     <>
-      {user ? (
+      {sender === "user" && (
         <MessageStyle
           bg='green'
           ml='auto'
@@ -13,17 +13,16 @@ const Message = ({ user }) => {
           p={2}
           borderRadius={8}
           color='#fff'>
-          <Text style={{ color: "#fff" }}>Message</Text>
+          <Text style={{ color: "#fff" }}>{text}</Text>
         </MessageStyle>
-      ) : (
+      )}
+      {sender === "bot" && (
         <MessageStyle
           bg='white'
           mt={3}
           p={2}
           borderRadius={8}>
-          <Text>
-            poiuytresdfghjklkjhgcvjkjgcvbn,.,nbvcvbnm,..bvcvbnm,./nbvccvbnml;lvtrdswxtytchjkm
-          </Text>
+          <Text>{text}</Text>
         </MessageStyle>
       )}
     </>
