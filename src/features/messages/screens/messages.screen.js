@@ -14,6 +14,7 @@ import Convo from "../components/convo.styled";
 import Message from "../components/message.component";
 import { QueryClient, useQuery } from "react-query";
 import axios from "axios";
+import openai from "react-openai-api";
 
 function MesssageScreen() {
   const [messages, setMessages] = useState([]);
@@ -29,37 +30,69 @@ function MesssageScreen() {
 
     formState: { errors },
   } = useForm();
-  const { isLoading, isError, refetch, data } = useQuery(
-    "botResponse",
-    async () => {
-      const response = await axios.post(
-        "https://api.openai.com/v1/engines/davinci-codex/completions",
-        {
-          prompt: inputValue,
-          max_tokens: 50,
-          temperature: 0.5,
-          n: 1,
-          stop: "\n",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      return response.data.choices[0].text;
-    },
-    {
-      enabled: false,
-      onSuccess: (data) => {
-        setMessages((messages) => [
-          ...messages,
-          { text: data, sender: "bot" },
-        ]);
-      },
-    }
-  );
+  // const configuration = new Configuration({
+  //   apiKey: "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",
+  // });
+  // openai.configure({
+  //   apiKey:
+  //     "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",
+  // });
+  // const { isLoading, isError, refetch, data } = useQuery(
+  //   "botResponse",
+  //   async () => {
+  //     const response = await axios.post(
+  //       "https://api.openai.com/v1/engines/gpt-3.5-turbo/completions",
+  //       {
+  //         prompt: "how can i learn how to dance",
+  //         max_tokens: 50,
+  //         temperature: 0.5,
+  //         n: 1,
+  //         stop: "\n",
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer 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`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     return response.data.choices[0].text;
+  //   },
+  //   {
+  //     enabled: false,
+  //     onSuccess: (data) => {
+  //       setMessages((messages) => [
+  //         ...messages,
+  //         { text: data, sender: "bot" },
+  //       ]);
+  //     },
+  //     onError: (err) => {
+  //       console.log(err);
+  //     },
+  //   }
+  // );
+
+  // const openaiQuery = async (input) => {
+  //   try {
+  //     const completion = await openai.createChatCompletion({
+  //       model: "text-davinci-002",
+  //       prompt: inputValue,
+  //       maxTokens: 50,
+  //       temperature: 0.5,
+  //       n: 1,
+  //       stop: "\n",
+  //     });
+  //     setMessages((messages) => [
+  //       ...messages,
+  //       {
+  //         text: completion.data.choices[0].text,
+  //         sender: "bot",
+  //       },
+  //     ]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleInputSubmit = (e) => {
     e.preventDefault();
@@ -67,11 +100,8 @@ function MesssageScreen() {
       ...messages,
       { text: inputValue, sender: "user" },
     ]);
-    console.log(inputValue);
     setInputValue("");
-    if (inputValue) {
-      refetch();
-    }
+    // openaiQuery(inputValue);
   };
 
   const handleInputChange = (e) => {
@@ -85,6 +115,7 @@ function MesssageScreen() {
     ]);
     queryClient.invalidateQueries("botResponse");
   };
+
   return (
     <SafeArea>
       <Convo bg='grey' flex={0.9} m={3}>
