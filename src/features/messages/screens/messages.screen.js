@@ -15,7 +15,8 @@ import Message from "../components/message.component";
 import { QueryClient, useQuery } from "react-query";
 import axios from "axios";
 import openai from "react-openai-api";
-
+import Constants from "expo-constants";
+import { OPENAI_API_KEY } from "@env";
 function MesssageScreen() {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -97,7 +98,7 @@ function MesssageScreen() {
           },
           {
             headers: {
-              Authorization: `Bearer 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`,
+              Authorization: `Bearer ${OPENAI_API_KEY}`,
               "Content-Type": "application/json",
             },
           }
