@@ -41,14 +41,9 @@ function MesssageScreen() {
   //   "botResponse",
   //   async () => {
   //     const response = await axios.post(
-  //       "https://api.openai.com/v1/engines/gpt-3.5-turbo/completions",
-  //       {
-  //         prompt: "how can i learn how to dance",
-  //         max_tokens: 50,
-  //         temperature: 0.5,
-  //         n: 1,
-  //         stop: "\n",
-  //       },
+  //       "https://api.openai.com/v1/chat/completions",{
+  //       model: "gpt-3.5-turbo",
+  //  messages: [{ role: "user", content: "Hello world" }],
   //       {
   //         headers: {
   //           Authorization: `Bearer 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`,
@@ -72,27 +67,58 @@ function MesssageScreen() {
   //   }
   // );
 
-  // const openaiQuery = async (input) => {
-  //   try {
-  //     const completion = await openai.createChatCompletion({
-  //       model: "text-davinci-002",
-  //       prompt: inputValue,
-  //       maxTokens: 50,
-  //       temperature: 0.5,
-  //       n: 1,
-  //       stop: "\n",
-  //     });
-  //     setMessages((messages) => [
-  //       ...messages,
-  //       {
-  //         text: completion.data.choices[0].text,
-  //         sender: "bot",
-  //       },
-  //     ]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const openaiQuery = async (input) => {
+    //   // try {
+    //   //   const completion = await openai.createChatCompletion({
+    //   //     model: "text-davinci-002",
+    //   //     prompt: inputValue,
+    //   //     maxTokens: 50,
+    //   //     temperature: 0.5,
+    //   //     n: 1,
+    //   //     stop: "\n",
+    //   //   });
+    //   //   setMessages((messages) => [
+    //   //     ...messages,
+    //   //     {
+    //   //       text: completion.data.choices[0].text,
+    //   //       sender: "bot",
+    //   //     },
+    //   //   ]);
+    //   // } catch (error) {
+    //   //   console.log(error);
+    // }
+    try {
+      await axios
+        .post(
+          "https://api.openai.com/v1/chat/completions",
+          {
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: input }],
+          },
+          {
+            headers: {
+              Authorization: `Bearer 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`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data.choices[0].message.content);
+          setMessages((messages) => [
+            ...messages,
+            {
+              text: res.data.choices[0].message.content,
+              sender: "bot",
+            },
+          ]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleInputSubmit = (e) => {
     e.preventDefault();
@@ -101,7 +127,7 @@ function MesssageScreen() {
       { text: inputValue, sender: "user" },
     ]);
     setInputValue("");
-    // openaiQuery(inputValue);
+    openaiQuery(inputValue);
   };
 
   const handleInputChange = (e) => {
