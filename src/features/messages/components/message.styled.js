@@ -1,4 +1,5 @@
 import { View } from "react-native";
+import { TextInput } from "react-native-paper";
 import styled from "styled-components";
 import {
   space,
@@ -8,7 +9,14 @@ import {
   border,
 } from "styled-system";
 
-const MessageStyle = styled(View)`
+export const MessageStyle = styled(View)`
+  ${space}
+  ${layout}
+  ${color}
+  ${flexbox}
+  ${border}
+`;
+export const InputContainerStyle = styled(View)`
   ${space}
   ${layout}
   ${color}
@@ -16,4 +24,10 @@ const MessageStyle = styled(View)`
   ${border}
 `;
 
-export default MessageStyle;
+export const TextInputStyle = styled(TextInput)`
+  ${space}
+  ${layout}
+${color}
+${flexbox}
+${border}
+`;

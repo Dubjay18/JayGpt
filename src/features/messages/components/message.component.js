@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "react-native";
-import MessageStyle from "./message.styled";
+import { MessageStyle } from "./message.styled";
 
 const Message = ({ sender, text }) => {
   return (

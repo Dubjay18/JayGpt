@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View, TextInput } from "react-native";
-import { Button } from "react-native-paper";
+import { Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Button,
+  TextInput,
+} from "react-native-paper";
 import {
   chatApi,
   useGetBotMessageQuery,
@@ -17,77 +21,21 @@ import axios from "axios";
 import openai from "react-openai-api";
 import Constants from "expo-constants";
 import { OPENAI_API_KEY } from "@env";
+import {
+  InputContainerStyle,
+  TextInputStyle,
+} from "../components/message.styled";
 function MesssageScreen() {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [queryClient, setQueryClient] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setQueryClient(new QueryClient());
   }, []);
-  const {
-    control,
-    handleSubmit,
-
-    formState: { errors },
-  } = useForm();
-  // const configuration = new Configuration({
-  //   apiKey: "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",
-  // });
-  // openai.configure({
-  //   apiKey:
-  //     "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",
-  // });
-  // const { isLoading, isError, refetch, data } = useQuery(
-  //   "botResponse",
-  //   async () => {
-  //     const response = await axios.post(
-  //       "https://api.openai.com/v1/chat/completions",{
-  //       model: "gpt-3.5-turbo",
-  //  messages: [{ role: "user", content: "Hello world" }],
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer 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`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     return response.data.choices[0].text;
-  //   },
-  //   {
-  //     enabled: false,
-  //     onSuccess: (data) => {
-  //       setMessages((messages) => [
-  //         ...messages,
-  //         { text: data, sender: "bot" },
-  //       ]);
-  //     },
-  //     onError: (err) => {
-  //       console.log(err);
-  //     },
-  //   }
-  // );
 
   const openaiQuery = async (input) => {
-    //   // try {
-    //   //   const completion = await openai.createChatCompletion({
-    //   //     model: "text-davinci-002",
-    //   //     prompt: inputValue,
-    //   //     maxTokens: 50,
-    //   //     temperature: 0.5,
-    //   //     n: 1,
-    //   //     stop: "\n",
-    //   //   });
-    //   //   setMessages((messages) => [
-    //   //     ...messages,
-    //   //     {
-    //   //       text: completion.data.choices[0].text,
-    //   //       sender: "bot",
-    //   //     },
-    //   //   ]);
-    //   // } catch (error) {
-    //   //   console.log(error);
-    // }
     try {
       await axios
         .post(
@@ -105,6 +53,7 @@ function MesssageScreen() {
         )
         .then((res) => {
           console.log(res.data.choices[0].message.content);
+          setIsLoading(false);
           setMessages((messages) => [
             ...messages,
             {
@@ -115,6 +64,7 @@ function MesssageScreen() {
         })
         .catch((err) => {
           console.log(err);
+          setIsLoading(false);
         });
     } catch (error) {
       console.log(error);
@@ -123,6 +73,7 @@ function MesssageScreen() {
 
   const handleInputSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     setMessages((messages) => [
       ...messages,
       { text: inputValue, sender: "user" },
@@ -132,36 +83,28 @@ function MesssageScreen() {
   };
 
   const handleInputChange = (e) => {
-    setInputValue(e.nativeEvent.text);
-  };
-  const onSubmit = (data) => {
-    console.log(data);
-    setMessages((messages) => [
-      ...messages,
-      { text: data.message, sender: "user" },
-    ]);
-    queryClient.invalidateQueries("botResponse");
+    setInputValue(e);
   };
 
   return (
     <SafeArea>
       <Convo bg='grey' flex={0.9} m={3}>
         {/* <SpeechToText /> */}
-        {messages &&
-          messages.map((message, index) => (
-            <Message
-              key={index}
-              sender={message.sender}
-              text={message.text}
-            />
-          ))}
+        {messages?.map((message, index) => (
+          <Message
+            key={index}
+            sender={message.sender}
+            text={message.text}
+          />
+        ))}
+        {isLoading && <ActivityIndicator />}
       </Convo>
       {/* //{" "}
       <View>
         // <SpeechToText />
         //{" "}
       </View> */}
-      <View>
+      <InputContainerStyle p={2}>
         {/* <Controller
           control={control}
           rules={{ required: true }}
@@ -182,19 +125,23 @@ function MesssageScreen() {
         {errors.message && (
           <Text>This field is required.</Text>
         )} */}
-        <TextInput
+        <TextInputStyle
           type='text'
           placeholder='Type a message'
           value={inputValue}
-          onChange={handleInputChange}
+          onChangeText={handleInputChange}
+          mode='outlined'
+          outlineColor={theme.colors.green}
+          mb={2}
         />
         <Button
           buttonColor={theme.colors.green}
           textColor={theme.colors.white}
-          onPress={handleInputSubmit}>
+          onPress={handleInputSubmit}
+          disabled={isLoading}>
           Submit
         </Button>
-      </View>
+      </InputContainerStyle>
     </SafeArea>
   );
 }
