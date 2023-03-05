@@ -7,6 +7,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "react-query";
+import { NavigationContainer } from "@react-navigation/native";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -14,7 +16,11 @@ export default function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <Navigation />
+          <RootSiblingParent>
+            <NavigationContainer>
+              <Navigation />
+            </NavigationContainer>
+          </RootSiblingParent>
         </ThemeProvider>
       </QueryClientProvider>
     </>

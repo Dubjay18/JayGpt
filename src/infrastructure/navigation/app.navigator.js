@@ -11,23 +11,17 @@ const Settings = () => <Text>settings</Text>;
 const Stack = createStackNavigator();
 function AppNavigator() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          ...TransitionPresets.ModalPresentationIOS,
-          headerShown: false,
-        }}
-        initialRouteName='Messages'>
-        <Stack.Screen
-          name='Messages'
-          component={MesssageScreen}
-        />
-        <Stack.Screen
-          name='Settings'
-          component={Settings}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator
+      screenOptions={{
+        ...TransitionPresets.ModalPresentationIOS,
+      }}
+      initialRouteName='Messages'>
+      <Stack.Screen
+        name='Messages'
+        component={MesssageScreen}
+      />
+      <Stack.Screen name='Settings' component={Settings} />
+    </Stack.Navigator>
   );
 }
 

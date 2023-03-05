@@ -3,8 +3,8 @@ import { View, Text } from "react-native";
 import { TextInput } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "react-native-paper";
-import theme from "../../utility/theme";
-const LoginScreen = () => {
+import theme from "../../../utility/theme";
+const LoginScreen = ({ navigation }) => {
   const {
     control,
     handleSubmit,
@@ -65,6 +65,12 @@ const LoginScreen = () => {
         onPress={handleSubmit(onSubmit)}>
         Submit
       </Button>
+      <View>
+        <Text
+          onPress={() => navigation.navigate("Register")}>
+          Signup
+        </Text>
+      </View>
     </View>
   );
 };
