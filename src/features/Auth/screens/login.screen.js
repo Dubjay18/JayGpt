@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { TextInput } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "react-native-paper";
@@ -19,9 +19,23 @@ const LoginScreen = ({ navigation }) => {
     <View
       style={{
         flex: 1,
-        justifyContent: "space-evenly",
+        gap: 5,
         padding: 14,
       }}>
+      <View
+        style={{
+          alignItems: "center",
+        }}>
+        {/* <Image
+          style={{
+            height: 30,
+            width: 60,
+            marginTop: 200,
+            marginBottom: 60,
+          }}
+          source={require("../../../../assets/ChatGPT_Logo_PNG1.png")}
+        /> */}
+      </View>
       <Controller
         control={control}
         rules={{ required: true }}
@@ -34,6 +48,7 @@ const LoginScreen = ({ navigation }) => {
             value={value}
             mode='outlined'
             outlineColor={theme.colors.green}
+            style={{ marginBottom: 30 }}
           />
         )}
         name='Email'
@@ -51,6 +66,7 @@ const LoginScreen = ({ navigation }) => {
             value={value}
             mode='outlined'
             outlineColor={theme.colors.green}
+            style={{ marginBottom: 100 }}
           />
         )}
         name='password'
@@ -62,7 +78,12 @@ const LoginScreen = ({ navigation }) => {
       <Button
         buttonColor={theme.colors.green}
         textColor={theme.colors.white}
-        onPress={handleSubmit(onSubmit)}>
+        onPress={handleSubmit(onSubmit)}
+        style={{
+          height: 50,
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
         Submit
       </Button>
       <View>
