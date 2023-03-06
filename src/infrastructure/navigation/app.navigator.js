@@ -8,8 +8,15 @@ import { Ionicons } from "@expo/vector-icons";
 import MesssageScreen from "../../features/messages/screens/messages.screen";
 import { Button } from "react-native-paper";
 import { Text } from "react-native";
+import SafeArea from "../../utility/SafeArea";
+import { cusSignOut } from "../../services/auth.service";
 
-const Settings = () => <Text>settings</Text>;
+const Settings = () => (
+  <SafeArea>
+    <Text>settings</Text>
+    <Text onPress={cusSignOut}>signout</Text>
+  </SafeArea>
+);
 const Stack = createStackNavigator();
 function AppNavigator() {
   return (

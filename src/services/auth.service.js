@@ -1,5 +1,8 @@
 import React from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { auth } from "../utility/firebase";
 import CustomToast from "../utility/toast/CustomToast";
 import { onAuthStateChanged } from "firebase/auth";
@@ -27,6 +30,16 @@ export function useAuthentication() {
     user,
   };
 }
+export const cusSignOut = () => {
+  signOut(auth)
+    .then(() => {
+      CustomToast("Signout successful");
+    })
+    .catch((error) => {
+      // An error happened.
+      CustomToast(error.message);
+    });
+};
 export const EmailAndPasswordReg = (
   email,
   password,
