@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 import { chatApi } from "./api";
 import authReducer from "./slices/auth.slice";
 export const store = configureStore({

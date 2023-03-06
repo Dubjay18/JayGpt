@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useAuthentication } from "../../services/auth.service";
 import { auth } from "../../utility/firebase";
 import {
   loginFunc,
@@ -11,11 +12,8 @@ import AppNavigator from "./app.navigator";
 import AuthNavigator from "./Auth.navigator";
 
 function Navigation() {
-  const [isSignedin, setIsSignedin] = useState(false);
-  const userStore = useSelector(
-    (state) => state.auth.value
-  );
-  const dispatch = useDispatch();
+  const { user } = useAuthentication();
+
   function serialize(obj) {
     let serialized = "";
 
@@ -38,24 +36,8 @@ function Navigation() {
 
     return serialized;
   }
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        dispatch(loginFunc(serialize(user)));
-      } else {
-        // User is signed out
-        // ...
-        dispatch(signoutFunc());
-      }
-    });
-  }, []);
 
-  return (
-    <>{userStore ? <AppNavigator /> : <AuthNavigator />}</>
-  );
+  return <>{user ? <AppNavigator /> : <AuthNavigator />}</>;
 }
 
 export default Navigation;

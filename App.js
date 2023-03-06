@@ -16,17 +16,15 @@ export default function App() {
   const queryClient = new QueryClient();
   return (
     <>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme}>
-            <RootSiblingParent>
-              <NavigationContainer>
-                <Navigation />
-              </NavigationContainer>
-            </RootSiblingParent>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <RootSiblingParent>
+            <NavigationContainer>
+              <Navigation />
+            </NavigationContainer>
+          </RootSiblingParent>
+        </ThemeProvider>
+      </QueryClientProvider>
     </>
   );
 }
