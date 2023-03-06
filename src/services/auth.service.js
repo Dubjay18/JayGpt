@@ -5,22 +5,43 @@ import {
 import { auth } from "../utility/firebase";
 import CustomToast from "../utility/toast/CustomToast";
 
-export const EmailAndPasswordReg = ({
+export const EmailAndPasswordReg = (
   email,
   password,
-}) => {
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      CustomToast("Success");
-      // ...
-    })
-    .catch((error) => {
-      //   const errorCode = error.code;
-      //   const errorMessage = error.message;
-      CustomToast(error.message);
-      // ..
-    });
+  name
+) => {
+  return (
+    createUserWithEmailAndPassword(auth, email, password)
+      // .then((userCredential) => {
+      //   // Signed in
+      //   userCredential.user
+      //     .updateProfile({
+      //       displayName: name,
+      //     })
+      //     .then(() => {
+      //       CustomToast("updated successfully");
+      //     })
+      //     .catch((error) => {
+      //       //   const errorCode = error.code;
+      //       //   const errorMessage = error.message;
+      //       CustomToast(error.message);
+      //       // ..
+      //     });
+
+      //   // ...
+      // })
+
+      .then(() => {
+        CustomToast("Success");
+      })
+      .catch((error) => {
+        //   const errorCode = error.code;
+        //   const errorMessage = error.message;
+        console.log(email);
+        CustomToast(error.code);
+        // ..
+      })
+  );
 };
 export const EmailAndPasswordLogin = ({
   email,

@@ -6,6 +6,7 @@ import React from "react";
 import LoginScreen from "../../features/Auth/screens/login.screen";
 import RegisterScreen from "../../features/Auth/screens/register.screen";
 import SafeArea from "../../utility/SafeArea";
+import theme from "../../utility/theme";
 
 function AuthNavigator() {
   const Stack = createStackNavigator();
@@ -13,7 +14,13 @@ function AuthNavigator() {
     <SafeArea>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false,
+          headerStyle: {
+            backgroundColor: theme.colors.green,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
         }}
         initialRouteName='Login'>
         <Stack.Screen

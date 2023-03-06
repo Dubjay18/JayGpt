@@ -9,20 +9,24 @@ import {
 } from "react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootSiblingParent } from "react-native-root-siblings";
+import { Provider } from "react-redux";
+import { store } from "./src/utility/redux/store";
 
 export default function App() {
   const queryClient = new QueryClient();
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
-          <RootSiblingParent>
-            <NavigationContainer>
-              <Navigation />
-            </NavigationContainer>
-          </RootSiblingParent>
-        </ThemeProvider>
-      </QueryClientProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={theme}>
+            <RootSiblingParent>
+              <NavigationContainer>
+                <Navigation />
+              </NavigationContainer>
+            </RootSiblingParent>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </Provider>
     </>
   );
 }

@@ -6,5 +6,6 @@ export default {
     navy: "#004175",
     green: "#74a89b",
     grey: "#ececec",
+    error: "#f14c4c",
   },
 };
