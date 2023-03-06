@@ -1,6 +1,7 @@
 import React from "react";
 import {
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import { auth } from "../utility/firebase";
@@ -78,15 +79,13 @@ export const EmailAndPasswordReg = (
       })
   );
 };
-export const EmailAndPasswordLogin = ({
-  email,
-  password,
-}) => {
+export const EmailAndPasswordLogin = (email, password) => {
+  console.log(email, password);
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      CustomToast("Success");
+      CustomToast("Login Succesful");
       // ...
     })
     .catch((error) => {

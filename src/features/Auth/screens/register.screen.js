@@ -112,8 +112,10 @@ const RegisterScreen = ({ navigation }) => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              keyboardType={"visible-password"}
-              textContentType={"password"}
+              autoCapitalize='none'
+              autoCorrect={false}
+              textContentType='newPassword'
+              secureTextEntry
               mode='outlined'
               placeholder='Password'
               placeholderTextColor={"grey"}

@@ -14,7 +14,7 @@ import { cusSignOut } from "../../services/auth.service";
 const Settings = () => (
   <SafeArea>
     <Text>settings</Text>
-    <Text onPress={cusSignOut}>signout</Text>
+    <Button onPress={cusSignOut}>signout</Button>
   </SafeArea>
 );
 const Stack = createStackNavigator();

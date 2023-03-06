@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,11 +6,16 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { TextInput } from "react-native-paper";
+import {
+  ActivityIndicator,
+  TextInput,
+} from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "react-native-paper";
 import theme from "../../../utility/theme";
+import { EmailAndPasswordLogin } from "../../../services/auth.service";
 const LoginScreen = ({ navigation }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -19,6 +24,11 @@ const LoginScreen = ({ navigation }) => {
 
   const onSubmit = (data) => {
     console.log(data);
+    setIsLoading(true);
+    if (data) {
+      EmailAndPasswordLogin(data.Email, data.password);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -44,65 +54,76 @@ const LoginScreen = ({ navigation }) => {
           source={require("../../../../assets/ChatGPT_Logo_PNG1.png")}
         />
       </View>
-      <Controller
-        control={control}
-        rules={{ required: true }}
-        render={({
-          field: { onChange, onBlur, value },
-        }) => (
-          <TextInput
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            mode='outlined'
-            placeholder='Email'
-            outlineColor={theme.colors.green}
-            style={{ marginBottom: 30 }}
-          />
+      <View style={{ marginBottom: 30 }}>
+        <Controller
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { onChange, onBlur, value },
+          }) => (
+            <TextInput
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              mode='outlined'
+              placeholder='Email'
+              placeholderTextColor={"grey"}
+              textContentType='emailAddress'
+              outlineColor={theme.colors.green}
+            />
+          )}
+          name='Email'
+          defaultValue=''
+        />
+        {errors.Email && (
+          <Text style={{ color: theme.colors.error }}>
+            This field is required.
+          </Text>
         )}
-        name='Email'
-        defaultValue=''
-      />
-      <Controller
-        control={control}
-        rules={{ required: true }}
-        render={({
-          field: { onChange, onBlur, value },
-        }) => (
-          <TextInput
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            mode='outlined'
-            placeholder='Password'
-            outlineColor={theme.colors.green}
-            style={{ marginBottom: 100 }}
-          />
+      </View>
+      <View style={{ marginBottom: 100 }}>
+        <Controller
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { onChange, onBlur, value },
+          }) => (
+            <TextInput
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              mode='outlined'
+              placeholder='Enter password'
+              placeholderTextColor={"grey"}
+              autoCapitalize='none'
+              autoCorrect={false}
+              textContentType='newPassword'
+              secureTextEntry
+              outlineColor={theme.colors.green}
+            />
+          )}
+          name='password'
+          defaultValue=''
+        />
+        {errors.password && (
+          <Text style={{ color: theme.colors.error }}>
+            This field is required.
+          </Text>
         )}
-        name='password'
-        defaultValue=''
-      />
-      {errors.myInput && (
-        <Text>This field is required.</Text>
-      )}
+      </View>
+
       <View style={{ marginTop: "auto" }}>
         <Button
           buttonColor={theme.colors.green}
           textColor={theme.colors.white}
+          disabled={isLoading}
           onPress={handleSubmit(onSubmit)}
           style={{
             height: 50,
-            alignItems: "center",
-            justifyContent: "center",
-          }}>
-          Submit
+          }}
+          contentStyle={{ height: 50 }}>
+          {isLoading ? <ActivityIndicator /> : "Submit"}
         </Button>
-        <View>
-          <Text
-            onPress={() => navigation.navigate("Register")}>
-            Signup
-          </Text>
-        </View>
       </View>
     </KeyboardAvoidingView>
   );
