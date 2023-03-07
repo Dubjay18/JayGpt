@@ -103,10 +103,10 @@ function MesssageScreen() {
       console.log(error);
     }
   }
-  // useEffect(() => {
-  //   console.log("fgnn");
-  //   // getMessages();
-  // }, []);
+  useEffect(() => {
+    console.log("fgnn");
+    getMessages();
+  }, []);
 
   const openaiQuery = async (input) => {
     try {

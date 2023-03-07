@@ -10,13 +10,8 @@ import { Button } from "react-native-paper";
 import { Text } from "react-native";
 import SafeArea from "../../utility/SafeArea";
 import { cusSignOut } from "../../services/auth.service";
+import Settings from "../../features/settings/screens/settings.screen";
 
-const Settings = () => (
-  <SafeArea>
-    <Text>settings</Text>
-    <Button onPress={cusSignOut}>signout</Button>
-  </SafeArea>
-);
 const Stack = createStackNavigator();
 function AppNavigator() {
   return (
