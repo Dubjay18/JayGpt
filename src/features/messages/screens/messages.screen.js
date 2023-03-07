@@ -26,6 +26,15 @@ import {
   InputContainerStyle,
   TextInputStyle,
 } from "../components/message.styled";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+} from "firebase/firestore";
+import { db } from "../../../utility/firebase";
 
 const MyComponent = () => {
   const [active, setActive] = React.useState("");
@@ -53,9 +62,51 @@ function MesssageScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [active, setActive] = useState("");
 
-  useEffect(() => {
-    setQueryClient(new QueryClient());
-  }, []);
+  async function getMessages() {
+    setMessages([]);
+    const q = query(
+      collection(
+        db,
+        "chats",
+        "messages",
+        "jejeniyi7@gmail.com"
+      )
+    );
+    // const docRef = doc(
+    //   db,
+    //   "chats",
+    //   "messages",
+    //   "jejeniyi7@gmail.com"
+    // );
+    try {
+      //   const docSnap = await getDoc(docRef);
+
+      //   if (docSnap.exists()) {
+      //     console.log("Document data:", docSnap.data());
+      //   } else {
+      //     // doc.data() will be undefined in this case
+      //     console.log("No such document!");
+      //   }
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        setMessages((messages) => [
+          {
+            text: doc.data().content,
+            sender: doc.data().sender,
+          },
+          ...messages,
+        ]);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  // useEffect(() => {
+  //   console.log("fgnn");
+  //   // getMessages();
+  // }, []);
 
   const openaiQuery = async (input) => {
     try {
@@ -73,7 +124,7 @@ function MesssageScreen() {
             },
           }
         )
-        .then((res) => {
+        .then(async (res) => {
           console.log(res.data.choices[0].message.content);
           setIsLoading(false);
           setMessages((messages) => [
@@ -83,6 +134,18 @@ function MesssageScreen() {
               sender: "bot",
             },
           ]);
+          await addDoc(
+            collection(
+              db,
+              "chats",
+              "messages",
+              "jejeniyi7@gmail.com"
+            ),
+            {
+              content: res.data.choices[0].message.content,
+              sender: "bot",
+            }
+          );
         })
         .catch((err) => {
           console.log(err);
@@ -93,13 +156,25 @@ function MesssageScreen() {
     }
   };
 
-  const handleInputSubmit = (e) => {
+  const handleInputSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setMessages((messages) => [
       ...messages,
       { text: inputValue, sender: "user" },
     ]);
+    await addDoc(
+      collection(
+        db,
+        "chats",
+        "messages",
+        "jejeniyi7@gmail.com"
+      ),
+      {
+        content: inputValue,
+        sender: "user",
+      }
+    );
     setInputValue("");
     openaiQuery(inputValue);
   };
