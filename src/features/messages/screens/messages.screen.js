@@ -4,6 +4,7 @@ import { Text, View } from "react-native";
 import {
   ActivityIndicator,
   Button,
+  Drawer,
   TextInput,
 } from "react-native-paper";
 import {
@@ -25,11 +26,32 @@ import {
   InputContainerStyle,
   TextInputStyle,
 } from "../components/message.styled";
+
+const MyComponent = () => {
+  const [active, setActive] = React.useState("");
+
+  return (
+    <Drawer.Section title='Some title'>
+      <Drawer.Item
+        label='First Item'
+        active={active === "first"}
+        onPress={() => setActive("first")}
+      />
+      <Drawer.Item
+        label='Second Item'
+        active={active === "second"}
+        onPress={() => setActive("second")}
+      />
+    </Drawer.Section>
+  );
+};
+
 function MesssageScreen() {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [queryClient, setQueryClient] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
     setQueryClient(new QueryClient());
