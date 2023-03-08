@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Text, View } from "react-native";
 import { Switch } from "react-native-paper";
+import theme from "../../../utility/theme";
 
-const AppSpeech = () => {
+const AppSpeech = (props) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
@@ -14,7 +15,14 @@ const AppSpeech = () => {
         justifyContent: "space-between",
         padding: 6,
       }}>
-      <Text>Speech to text</Text>
+      <Text
+        style={
+          props.dark_mode && {
+            color: theme.colors.white,
+          }
+        }>
+        Speech to text
+      </Text>
       <Switch
         value={isSwitchOn}
         onValueChange={onToggleSwitch}

@@ -11,13 +11,21 @@ import { Text } from "react-native";
 import SafeArea from "../../utility/SafeArea";
 import { cusSignOut } from "../../services/auth.service";
 import Settings from "../../features/settings/screens/settings.screen";
+import theme from "../../utility/theme";
+import { connect } from "react-redux";
 
 const Stack = createStackNavigator();
-function AppNavigator() {
+function AppNavigator(props) {
   return (
     <Stack.Navigator
       screenOptions={{
         ...TransitionPresets.ModalPresentationIOS,
+        headerStyle: {
+          backgroundColor: props.dark_mode
+            ? "#000"
+            : "#fff",
+        },
+        headerTintColor: props.dark_mode ? "#fff" : "#000",
       }}
       initialRouteName='Messages'>
       <Stack.Screen
@@ -39,5 +47,11 @@ function AppNavigator() {
     </Stack.Navigator>
   );
 }
+const mapStateToProps = (state, myOwnProps) => {
+  // console.log(state.theme.darkmode);
+  return {
+    dark_mode: state.theme.darkmode,
+  };
+};
 
-export default AppNavigator;
+export default connect(mapStateToProps)(AppNavigator);

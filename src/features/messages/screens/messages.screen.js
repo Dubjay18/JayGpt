@@ -32,6 +32,7 @@ import {
   query,
 } from "firebase/firestore";
 import { db } from "../../../utility/firebase";
+import { connect } from "react-redux";
 
 const MyComponent = () => {
   const [active, setActive] = React.useState("");
@@ -52,7 +53,7 @@ const MyComponent = () => {
   );
 };
 
-function MesssageScreen() {
+function MesssageScreen(props) {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [queryClient, setQueryClient] = useState(null);
@@ -181,25 +182,41 @@ function MesssageScreen() {
   };
 
   return (
-    <SafeArea>
-      <Convo bg='grey' flex={0.9} m={3}>
-        {/* <SpeechToText /> */}
-        {messages?.map((message, index) => (
-          <Message
-            key={index}
-            sender={message.sender}
-            text={message.text}
-          />
-        ))}
-        {isLoading && <ActivityIndicator />}
-      </Convo>
-      {/* //{" "}
+    <SafeArea noandroid>
+      <View
+        style={
+          props.dark_mode
+            ? {
+                backgroundColor: theme.colors.dark,
+                flex: 1,
+              }
+            : {
+                flex: 1,
+              }
+        }>
+        <Convo
+          bg={props.dark_mode ? "#212121" : "grey"}
+          flex={0.9}
+          m={3}
+          p={1}>
+          {/* <SpeechToText /> */}
+          {messages?.map((message, index) => (
+            <Message
+              key={index}
+              sender={message.sender}
+              text={message.text}
+              dark_mode={props.dark_mode}
+            />
+          ))}
+          {isLoading && <ActivityIndicator />}
+        </Convo>
+        {/* //{" "}
       <View>
         // <SpeechToText />
         //{" "}
       </View> */}
-      <InputContainerStyle p={2}>
-        {/* <Controller
+        <InputContainerStyle p={2}>
+          {/* <Controller
           control={control}
           rules={{ required: true }}
           render={({
@@ -219,25 +236,52 @@ function MesssageScreen() {
         {errors.message && (
           <Text>This field is required.</Text>
         )} */}
-        <TextInputStyle
-          type='text'
-          placeholder='Type a message'
-          value={inputValue}
-          onChangeText={handleInputChange}
-          mode='outlined'
-          outlineColor={theme.colors.green}
-          mb={2}
-        />
-        <Button
-          buttonColor={theme.colors.green}
-          textColor={theme.colors.white}
-          onPress={handleInputSubmit}
-          disabled={isLoading}>
-          Submit
-        </Button>
-      </InputContainerStyle>
+          {props.dark_mode ? (
+            <TextInputStyle
+              type='text'
+              placeholder='Type a message'
+              value={inputValue}
+              onChangeText={handleInputChange}
+              mode='outlined'
+              outlineColor={theme.colors.green}
+              mb={2}
+              contentStyle={{
+                backgroundColor: theme.colors.dark,
+                borderRadius: 4,
+                margin: 0.2,
+              }}
+              textColor={"#fff"}
+              placeholderTextColor={"#c5c6c6"}
+            />
+          ) : (
+            <TextInputStyle
+              type='text'
+              placeholder='Type a message'
+              value={inputValue}
+              onChangeText={handleInputChange}
+              mode='outlined'
+              outlineColor={theme.colors.green}
+              mb={2}
+            />
+          )}
+
+          <Button
+            buttonColor={theme.colors.green}
+            textColor={theme.colors.white}
+            onPress={handleInputSubmit}
+            disabled={isLoading}>
+            Submit
+          </Button>
+        </InputContainerStyle>
+      </View>
     </SafeArea>
   );
 }
+const mapStateToProps = (state, myOwnProps) => {
+  // console.log(state.theme.darkmode);
+  return {
+    dark_mode: state.theme.darkmode,
+  };
+};
 
-export default MesssageScreen;
+export default connect(mapStateToProps)(MesssageScreen);

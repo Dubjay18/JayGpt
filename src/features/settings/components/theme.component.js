@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { Switch } from "react-native-paper";
 import { connect } from "react-redux";
 import { toggleTheme } from "../../../utility/redux/slices/themeSlice";
+import theme from "../../../utility/theme";
 
 const AppTheme = (props) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
@@ -19,7 +20,14 @@ const AppTheme = (props) => {
         justifyContent: "space-between",
         padding: 6,
       }}>
-      <Text>Dark theme</Text>
+      <Text
+        style={
+          props.dark_mode && {
+            color: theme.colors.white,
+          }
+        }>
+        Dark theme
+      </Text>
       <Switch
         value={props.dark_mode}
         onValueChange={() =>
