@@ -7,5 +7,6 @@ export default {
     green: "#74a89b",
     grey: "#ececec",
     error: "#f14c4c",
+    dark: "#2f2f2f",
   },
 };

@@ -10,13 +10,20 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { RootSiblingParent } from "react-native-root-siblings";
 import { Provider } from "react-redux";
-import { store } from "./src/utility/redux/store";
+
 import { Provider as PaperProvider } from "react-native-paper";
+import { PersistGate } from "redux-persist/integration/react";
+import rootReducer from "./src/utility/redux/reducers";
+import { configureStore } from "@reduxjs/toolkit";
+const store = configureStore({
+  reducer: rootReducer,
+});
+
 export default function App() {
   const queryClient = new QueryClient();
   return (
     <>
-      <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
         <ThemeProvider theme={theme}>
           <RootSiblingParent>
             <NavigationContainer>
@@ -24,7 +31,7 @@ export default function App() {
             </NavigationContainer>
           </RootSiblingParent>
         </ThemeProvider>
-      </QueryClientProvider>
+      </Provider>
     </>
   );
 }

@@ -7,14 +7,11 @@ import {
   Drawer,
   TextInput,
 } from "react-native-paper";
-import {
-  chatApi,
-  useGetBotMessageQuery,
-} from "../../../utility/redux/api";
+
 import SafeArea from "../../../utility/SafeArea";
 import theme from "../../../utility/theme";
 import SpeechToText from "../../SpeechToText";
-import { useMutation } from "@reduxjs/toolkit/query";
+
 import Convo from "../components/convo.styled";
 import Message from "../components/message.component";
 import { QueryClient, useQuery } from "react-query";
