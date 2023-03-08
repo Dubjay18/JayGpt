@@ -10,8 +10,13 @@ import { Controller, useForm } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
 import theme from "../../../utility/theme";
 import { EmailAndPasswordReg } from "../../../services/auth.service";
+import { connect } from "react-redux";
+import {
+  paperDarkheme,
+  paperLightheme,
+} from "../../../../App";
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = (props) => {
   const {
     control,
     handleSubmit,
@@ -33,9 +38,21 @@ const RegisterScreen = ({ navigation }) => {
       behavior={
         Platform.OS === "ios" ? "padding" : "height"
       }
-      style={{
-        padding: 14,
-      }}>
+      style={
+        props.dark_mode
+          ? {
+              flex: 1,
+              padding: 14,
+              backgroundColor:
+                paperDarkheme.colors.background,
+            }
+          : {
+              flex: 1,
+              padding: 14,
+              backgroundColor:
+                paperLightheme.colors.background,
+            }
+      }>
       <View
         style={{
           alignItems: "center",
@@ -51,27 +68,7 @@ const RegisterScreen = ({ navigation }) => {
           source={require("../../../../assets/ChatGPT_Logo_PNG1.png")}
         />
       </View>
-      <View style={{ marginBottom: 30 }}>
-        <Controller
-          control={control}
-          rules={{ required: true }}
-          render={({
-            field: { onChange, onBlur, value },
-          }) => (
-            <TextInput
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              mode='outlined'
-              placeholder='Name'
-              placeholderTextColor={"grey"}
-              outlineColor={theme.colors.green}
-            />
-          )}
-          name='name'
-          defaultValue=''
-        />
-      </View>
+
       <View style={{ marginBottom: 30 }}>
         <Controller
           control={control}
@@ -87,14 +84,51 @@ const RegisterScreen = ({ navigation }) => {
               textContentType='emailAddress'
               mode='outlined'
               placeholder='Email'
-              placeholderTextColor={"grey"}
-              outlineColor={theme.colors.green}
+              theme={
+                props.dark_mode
+                  ? paperDarkheme
+                  : paperLightheme
+              }
             />
           )}
           name='email'
           defaultValue=''
         />
         {errors.email && (
+          <Text style={{ color: theme.colors.error }}>
+            This field is required.
+          </Text>
+        )}
+      </View>
+
+      <View style={{ marginBottom: 30 }}>
+        <Controller
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { onChange, onBlur, value },
+          }) => (
+            <TextInput
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              autoCapitalize='none'
+              autoCorrect={false}
+              textContentType='newPassword'
+              secureTextEntry
+              mode='outlined'
+              placeholder='Password'
+              theme={
+                props.dark_mode
+                  ? paperDarkheme
+                  : paperLightheme
+              }
+            />
+          )}
+          name='password'
+          defaultValue=''
+        />
+        {errors.password && (
           <Text style={{ color: theme.colors.error }}>
             This field is required.
           </Text>
@@ -117,15 +151,18 @@ const RegisterScreen = ({ navigation }) => {
               textContentType='newPassword'
               secureTextEntry
               mode='outlined'
-              placeholder='Password'
-              placeholderTextColor={"grey"}
-              outlineColor={theme.colors.green}
+              placeholder='Confirm Password'
+              theme={
+                props.dark_mode
+                  ? paperDarkheme
+                  : paperLightheme
+              }
             />
           )}
-          name='password'
+          name='confirmpassword'
           defaultValue=''
         />
-        {errors.password && (
+        {errors.confirmpassword && (
           <Text style={{ color: theme.colors.error }}>
             This field is required.
           </Text>
@@ -138,15 +175,15 @@ const RegisterScreen = ({ navigation }) => {
           onPress={handleSubmit(onSubmit)}>
           Submit
         </Button>
-        <View>
-          <Text
-            onPress={() => navigation.navigate("Login")}>
-            Login
-          </Text>
-        </View>
       </View>
     </KeyboardAvoidingView>
   );
 };
+const mapStateToProps = (state, myOwnProps) => {
+  // console.log(state.theme.darkmode);
+  return {
+    dark_mode: state.theme.darkmode,
+  };
+};
 
-export default RegisterScreen;
+export default connect(mapStateToProps)(RegisterScreen);

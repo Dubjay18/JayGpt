@@ -14,7 +14,12 @@ import { useForm, Controller } from "react-hook-form";
 import { Button } from "react-native-paper";
 import theme from "../../../utility/theme";
 import { EmailAndPasswordLogin } from "../../../services/auth.service";
-const LoginScreen = ({ navigation }) => {
+import {
+  paperDarkheme,
+  paperLightheme,
+} from "../../../../App";
+import { connect } from "react-redux";
+const LoginScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
     control,
@@ -36,9 +41,21 @@ const LoginScreen = ({ navigation }) => {
       behavior={
         Platform.OS === "ios" ? "padding" : "height"
       }
-      style={{
-        padding: 14,
-      }}>
+      style={
+        props.dark_mode
+          ? {
+              flex: 1,
+              padding: 14,
+              backgroundColor:
+                paperDarkheme.colors.background,
+            }
+          : {
+              flex: 1,
+              padding: 14,
+              backgroundColor:
+                paperLightheme.colors.background,
+            }
+      }>
       <View
         style={{
           alignItems: "center",
@@ -67,9 +84,12 @@ const LoginScreen = ({ navigation }) => {
               value={value}
               mode='outlined'
               placeholder='Email'
-              placeholderTextColor={"grey"}
               textContentType='emailAddress'
-              outlineColor={theme.colors.green}
+              theme={
+                props.dark_mode
+                  ? paperDarkheme
+                  : paperLightheme
+              }
             />
           )}
           name='Email'
@@ -94,12 +114,15 @@ const LoginScreen = ({ navigation }) => {
               value={value}
               mode='outlined'
               placeholder='Enter password'
-              placeholderTextColor={"grey"}
               autoCapitalize='none'
               autoCorrect={false}
               textContentType='newPassword'
               secureTextEntry
-              outlineColor={theme.colors.green}
+              theme={
+                props.dark_mode
+                  ? paperDarkheme
+                  : paperLightheme
+              }
             />
           )}
           name='password'
@@ -128,5 +151,11 @@ const LoginScreen = ({ navigation }) => {
     </KeyboardAvoidingView>
   );
 };
+const mapStateToProps = (state, myOwnProps) => {
+  // console.log(state.theme.darkmode);
+  return {
+    dark_mode: state.theme.darkmode,
+  };
+};
 
-export default LoginScreen;
+export default connect(mapStateToProps)(LoginScreen);

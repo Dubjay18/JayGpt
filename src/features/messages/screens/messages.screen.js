@@ -33,6 +33,10 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../utility/firebase";
 import { connect } from "react-redux";
+import {
+  paperDarkheme,
+  paperLightheme,
+} from "../../../../App";
 
 const MyComponent = () => {
   const [active, setActive] = React.useState("");
@@ -187,11 +191,14 @@ function MesssageScreen(props) {
         style={
           props.dark_mode
             ? {
-                backgroundColor: theme.colors.dark,
                 flex: 1,
+                backgroundColor:
+                  paperDarkheme.colors.background,
               }
             : {
                 flex: 1,
+                backgroundColor:
+                  paperLightheme.colors.background,
               }
         }>
         <Convo
@@ -236,40 +243,32 @@ function MesssageScreen(props) {
         {errors.message && (
           <Text>This field is required.</Text>
         )} */}
-          {props.dark_mode ? (
-            <TextInputStyle
-              type='text'
-              placeholder='Type a message'
-              value={inputValue}
-              onChangeText={handleInputChange}
-              mode='outlined'
-              outlineColor={theme.colors.green}
-              mb={2}
-              contentStyle={{
-                backgroundColor: theme.colors.dark,
-                borderRadius: 4,
-                margin: 0.2,
-              }}
-              textColor={"#fff"}
-              placeholderTextColor={"#c5c6c6"}
-            />
-          ) : (
-            <TextInputStyle
-              type='text'
-              placeholder='Type a message'
-              value={inputValue}
-              onChangeText={handleInputChange}
-              mode='outlined'
-              outlineColor={theme.colors.green}
-              mb={2}
-            />
-          )}
+
+          <TextInputStyle
+            type='text'
+            placeholder='Type a message'
+            value={inputValue}
+            onChangeText={handleInputChange}
+            mode='outlined'
+            outlineColor={theme.colors.green}
+            mb={2}
+            theme={
+              props.dark_mode
+                ? paperDarkheme
+                : paperLightheme
+            }
+          />
 
           <Button
             buttonColor={theme.colors.green}
             textColor={theme.colors.white}
             onPress={handleInputSubmit}
-            disabled={isLoading}>
+            disabled={isLoading}
+            theme={
+              props.dark_mode
+                ? paperDarkheme
+                : paperLightheme
+            }>
             Submit
           </Button>
         </InputContainerStyle>

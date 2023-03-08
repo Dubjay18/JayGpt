@@ -9,10 +9,7 @@ const AppTheme = (props) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-  React.useEffect(() => {
-    props.toggleTheme(true);
-    console.log(props);
-  }, [isSwitchOn]);
+
   return (
     <View
       style={{
