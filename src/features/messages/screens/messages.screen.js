@@ -221,7 +221,7 @@ function MesssageScreen(props) {
           {isLoading && <ActivityIndicator />}
         </Convo>
 
-        <SpeechToText />
+        {/* <SpeechToText /> */}
 
         <InputContainerStyle p={2}>
           {/* <Controller

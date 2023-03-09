@@ -75,8 +75,10 @@ import axios from "axios";
 import CustomToast from "../../utility/toast/CustomToast";
 import * as Permissions from "expo-permissions";
 
-const API_URL = "https://asr.api.speechmatics.com/v2";
+const API_URL = "https://asr.api.speechmatics.com/v2/jobs";
+// const API_URL = "https://api.assemblyai.com/v2/transcript";
 const API_KEY = "z93vuDxgdsmUAGR6Vtjur04qIkrMJa52";
+// const API_KEY = "a891b0c354fc42c39133e33676e81e1b";
 
 export default function SpeechToText() {
   const [isRecording, setIsRecording] = useState(false);
@@ -120,13 +122,10 @@ export default function SpeechToText() {
       await audioFile.stopAndUnloadAsync();
       console.log("stop");
       const uri = audioFile.getURI();
-      try {
-        console.log("stop11");
-        transcribeAudio(uri);
-        console.log("stop3");
-      } catch (error) {
-        console.log(error);
-      }
+
+      console.log("stop11");
+      transcribeAudio(uri);
+      console.log("stop3");
     } else {
       CustomToast("failed");
       console.log("failed");
@@ -135,24 +134,41 @@ export default function SpeechToText() {
 
   async function transcribeAudio(uri) {
     const formData = new FormData();
-    formData.append("data_file", {
-      audio: uri,
-      type: "audio/x-wav",
-      name: "audio_file",
+    formData.append(" data_file", {
+      uri,
+      type: "audio/wav",
+      name: "audio.wav",
     });
-
+    // formData.append(
+    //   "config",
+    //   JSON.stringify({
+    //     type: "transcription",
+    //     transcription_config: {
+    //       operating_point: "enhanced",
+    //       language: "en",
+    //     },
+    //   })
+    // );
+    const config = {
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        "Content-Type": "multipart/form-data",
+      },
+      data: {
+        config: JSON.stringify({
+          type: "transcription",
+          transcription_config: {
+            operating_point: "enhanced",
+            language: "en",
+          },
+        }),
+      },
+    };
+    console.log(uri);
     axios
-      .post(API_URL, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${API_KEY}`,
-        },
-        params: {
-          model: "en-US",
-        },
-      })
+      .post(API_URL, formData, config)
       .then((response) => {
-        setTranscript(response.data);
+        // setTranscript(response.data);
         console.log(response.data);
       })
       .catch((err) => {
