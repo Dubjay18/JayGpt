@@ -4120,6 +4120,11 @@ expo-modules-core@1.1.1:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
+expo-permissions@^14.1.1:
+  version "14.1.1"
+  resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-14.1.1.tgz#6fc4ec5caf712df3ff2d9b7b831a6d9116f1d2b8"
+  integrity sha512-hOuAOBz+ZLsSJ3E8Ere/oA7YIYLNGf9fCApTi9OQmeJyCBsBHynf1yqMfVVpuDcCMixZ2XzsWlScq75f+7U1dQ==
+
 expo-speech@^11.0.0:
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/expo-speech/-/expo-speech-11.0.0.tgz#334f06ac4422866b38eef4854dfecac7c3507c5e"

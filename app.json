@@ -24,7 +24,10 @@
         "backgroundColor": "#fff"
       },
 
-      "permissions": ["android.permission.RECORD_AUDIO"],
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "AUDIO_RECORDING"
+      ],
       "package": "com.anonymous.jaygpt"
     },
     "web": {

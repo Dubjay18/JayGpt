@@ -30,6 +30,7 @@ import {
   getDoc,
   getDocs,
   query,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "../../../utility/firebase";
 import { connect } from "react-redux";
@@ -37,6 +38,7 @@ import {
   paperDarkheme,
   paperLightheme,
 } from "../../../../App";
+import { useAuthentication } from "../../../services/auth.service";
 
 const MyComponent = () => {
   const [active, setActive] = React.useState("");
@@ -63,22 +65,23 @@ function MesssageScreen(props) {
   const [queryClient, setQueryClient] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [active, setActive] = useState("");
-
+  const { user } = useAuthentication();
   async function getMessages() {
     setMessages([]);
     const q = query(
-      collection(
-        db,
-        "chats",
-        "messages",
-        "jejeniyi7@gmail.com"
-      )
+      collection(db, "chats", "messages", user.email)
     );
+    if (!q) {
+      // await setDoc(doc(db, "chats", user.email), {
+      //   //
+      // });
+      console.log("q not present");
+    }
     // const docRef = doc(
     //   db,
     //   "chats",
     //   "messages",
-    //   "jejeniyi7@gmail.com"
+    //   user.email
     // );
     try {
       //   const docSnap = await getDoc(docRef);
@@ -108,7 +111,7 @@ function MesssageScreen(props) {
   useEffect(() => {
     console.log("fgnn");
     getMessages();
-  }, []);
+  }, [user]);
 
   const openaiQuery = async (input) => {
     try {
@@ -217,11 +220,9 @@ function MesssageScreen(props) {
           ))}
           {isLoading && <ActivityIndicator />}
         </Convo>
-        {/* //{" "}
-      <View>
-        // <SpeechToText />
-        //{" "}
-      </View> */}
+
+        <SpeechToText />
+
         <InputContainerStyle p={2}>
           {/* <Controller
           control={control}

@@ -29,7 +29,7 @@ const RegisterScreen = (props) => {
       EmailAndPasswordReg(
         data.email,
         data.password,
-        data.name
+        data.confirmpassword
       );
     }
   };
